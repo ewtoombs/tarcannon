@@ -10,6 +10,7 @@ import socket
 import sys
 import tarfile
 import typing
+import urllib.parse
 
 logger = logging.getLogger(__name__)
 
@@ -105,7 +106,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
                 self.send_error(http.HTTPStatus.UNAUTHORIZED)
                 return
 
-        path = self.serve_path / self.path.strip('/')
+        path = self.serve_path / urllib.parse.unquote(self.path).strip('/')
         if not path.is_dir():
             self.send_error(http.HTTPStatus.NOT_FOUND)
             return
