@@ -68,7 +68,7 @@ def stream(path: pathlib.Path, wfile: typing.BinaryIO) -> None:
     with tarfile.open(
         fileobj=wfile, mode='w|', format=tarfile.PAX_FORMAT, stream=True, debug=tar_log,
     ) as tar:
-        tar.add(path)
+        tar.add(name=path, arcname=path.name)
         logger.info('%d members, %d inodes, %d MiB',
                     len(tar.members), len(tar.inodes), tar.offset//0x100000)
     # Don't close wfile: handle_one_request() is going to flush() it
